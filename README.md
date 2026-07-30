@@ -11,4 +11,4 @@
 
 ## Demo 预览
 
-[打开本地 Demo 预览](file:///Users/yechangmian/Documents/video%20system/prototypes/%E5%8D%83%E5%B7%9D%E5%BF%AB%E6%8A%95%E6%8F%92%E4%BB%B6-demo/index.html)
+[打开在线 Demo 预览](https://yechangmian.github.io/qianchuan-quick-delivery-demo/)
