@@ -34,6 +34,7 @@
       productId: '3829850811488403472',
       cover: 'assets/product-1.png',
       deliveryType: 'scale',
+      todayDelivery: { count: 3, spend: '342.2' },
       uploadedAt: '2026-07-29 09:24',
       metrics: [
         { label: '近7日消耗', value: '¥3,286.40' },
@@ -51,6 +52,7 @@
       productId: '3829847837299048729',
       cover: 'assets/product-2.png',
       deliveryType: 'controlled',
+      todayDelivery: { count: 1, spend: '186.5' },
       uploadedAt: '2026-07-28 18:46',
       metrics: [
         { label: '近7日消耗', value: '¥2,108.20' },
@@ -347,8 +349,12 @@
     return copyId(materialId, '素材ID已复制');
   }
 
+  function displayMaterialId(materialId) {
+    return `***${String(materialId).slice(-4)}`;
+  }
+
   function openMaterialPreview(cover, materialId) {
-    document.getElementById('qcMediaPreviewTitle').textContent = `素材ID：${materialId}`;
+    document.getElementById('qcMediaPreviewTitle').textContent = `素材ID：${displayMaterialId(materialId)}`;
     document.getElementById('qcImagePreview').hidden = true;
     const videoPreview = document.getElementById('qcVideoPreview');
     const videoCanvas = document.getElementById('qcVideoCanvas');
@@ -433,14 +439,15 @@
       ? `<div class="qc-recalled-material-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>`
       : `<div class="qc-title-row">
           <span class="qc-material-tag ${escapeHtml(item.priority)}">${escapeHtml(item.tag)}</span>
-          <div class="qc-material-id" title="素材ID：${escapeHtml(item.materialId)}">素材ID：${escapeHtml(item.materialId)}</div>
-          <button type="button" class="qc-copy-id-button" data-copy-material-id="${escapeHtml(item.materialId)}" title="复制素材ID" aria-label="复制素材ID ${escapeHtml(item.materialId)}">⧉</button>
+          <div class="qc-material-id" title="素材ID：${escapeHtml(displayMaterialId(item.materialId))}">${escapeHtml(displayMaterialId(item.materialId))}</div>
+          <button type="button" class="qc-copy-id-button" data-copy-material-id="${escapeHtml(item.materialId)}" title="复制素材ID" aria-label="复制素材ID">⧉</button>
+          ${item.todayDelivery ? `<span class="qc-today-delivery">今日已投${escapeHtml(item.todayDelivery.count)}次，消耗${escapeHtml(item.todayDelivery.spend)}元</span>` : ''}
         </div>`;
     return `
       <article class="qc-suggestion ${selected ? 'selected' : ''}" ${selectionAttribute} role="button" tabindex="0" aria-pressed="${selected ? 'true' : 'false'}">
         <div class="qc-suggestion-body">
           <div class="qc-material">
-            <button type="button" class="qc-cover-wrap qc-media-button" data-material-preview-cover="${escapeHtml(item.cover)}" data-material-preview-id="${escapeHtml(item.materialId)}" aria-label="播放素材${serverMaterial ? ` ${escapeHtml(item.name)}` : `ID ${escapeHtml(item.materialId)}`}"><img class="qc-cover" src="${escapeHtml(item.cover)}" alt="素材封面"><span class="qc-play">▶</span></button>
+            <button type="button" class="qc-cover-wrap qc-media-button" data-material-preview-cover="${escapeHtml(item.cover)}" data-material-preview-id="${escapeHtml(item.materialId)}" aria-label="播放素材${serverMaterial ? ` ${escapeHtml(item.name)}` : `ID ${escapeHtml(displayMaterialId(item.materialId))}`}"><img class="qc-cover" src="${escapeHtml(item.cover)}" alt="素材封面"><span class="qc-play">▶</span></button>
             <div class="qc-material-copy">
               ${materialHeading}
               <div class="qc-product-data-row">
@@ -832,7 +839,7 @@
     const missingTemplateSelection = targets.find(item => !batchPlanConfigs[item.id]?.templateId);
     if (missingTemplateSelection) {
       const modalNote = document.getElementById('templateModalNote');
-      modalNote.textContent = `请选择素材ID「${missingTemplateSelection.materialId}」的追投模版，或选择手动创建。`;
+      modalNote.textContent = `请选择素材ID「${displayMaterialId(missingTemplateSelection.materialId)}」的追投模版，或选择手动创建。`;
       modalNote.classList.add('error');
       return;
     }
@@ -845,7 +852,7 @@
     });
     if (invalidTarget) {
       const modalNote = document.getElementById('templateModalNote');
-      modalNote.textContent = `请完整填写素材ID「${invalidTarget.materialId}」的追投参数。`;
+      modalNote.textContent = `请完整填写素材ID「${displayMaterialId(invalidTarget.materialId)}」的追投参数。`;
       modalNote.classList.add('error');
       return;
     }
