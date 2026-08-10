@@ -439,7 +439,7 @@
       ? `<div class="qc-recalled-material-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>`
       : `<div class="qc-title-row">
           <span class="qc-material-tag ${escapeHtml(item.priority)}">${escapeHtml(item.tag)}</span>
-          <div class="qc-material-id" title="素材ID：${escapeHtml(displayMaterialId(item.materialId))}">${escapeHtml(displayMaterialId(item.materialId))}</div>
+          <div class="qc-material-id" title="素材ID：${escapeHtml(displayMaterialId(item.materialId))}">素材ID：${escapeHtml(displayMaterialId(item.materialId))}</div>
           <button type="button" class="qc-copy-id-button" data-copy-material-id="${escapeHtml(item.materialId)}" title="复制素材ID" aria-label="复制素材ID">⧉</button>
           ${item.todayDelivery ? `<span class="qc-today-delivery">今日已投${escapeHtml(item.todayDelivery.count)}次，消耗${escapeHtml(item.todayDelivery.spend)}元</span>` : ''}
         </div>`;
